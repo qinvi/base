@@ -1,0 +1,581 @@
+/* 字体样色 */
+@font-color: #414e61;
+@select-font-color: #1f7ed0;
+@second-font: #c0c0c0;
+
+/* 主色 */
+@main-color: #27303f;
+@eye-color: #1f7ed0;
+@aux-color: #6d82a1;
+
+/* 背景颜色 */
+@bg: #ecf2fc;
+
+/* 标题样式 */
+@title-color: #ecf2fc;
+@title-height: 30px;
+@title-height-big: 45px;
+
+/* 边框颜色 */
+@shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+@hover-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+@btn-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+/* 字体大小 */
+@font-normal: 12px;
+@font-big: 20px;
+
+/* 弹窗top值 */
+@top-normal: 30px;
+@top-big: 45px;
+
+/* 宽度设定 */
+// 等级, 靶向预警弹窗
+@analysis-width: 439px; // 440
+@analysis-width-big: 600px;
+
+// 左侧面板, 模型
+@base-width: 280px;
+@base-width-big: 416px;
+
+/* 高度与行高 */
+@height: 26px;
+@height-normal: 26px;
+@height-big: 32px;
+
+@pop-width-normal: 426px;
+@pop-width-normal-max: 700px;
+
+@pop-width-big: 600px;
+@pop-width-big-max: 800px;
+
+@panel-width-normal: 310px;
+@panel-width-big: 428px;
+
+/* 面板层级 */
+@pop-index: 5000;
+@panel-index: 1000;
+@mask-index: 6000;
+
+.width(@width: @pop-width-normal) {
+    width: @width;
+}
+
+.height(@height: @height-normal) {
+    height: @height;
+    line-height: @height;
+}
+.height-big(@height: 36px) {
+    height: @height;
+    line-height: @height;
+}
+/* clearfix */
+.clearfix::after,
+.clearfix::before {
+    content: ' ';
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}
+
+.ol-zoom,
+.ol-rotate,
+.ol-attribution {
+    display: none;
+}
+
+body,
+div,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    -webkit-text-size-adjust: none;
+    outline: none;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: 'Microsoft Yahei';
+    vertical-align: baseline;
+    color: @font-color;
+}
+
+html,
+body,
+div {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+img {
+    border: 0;
+}
+
+body {
+    overflow: hidden;
+}
+
+font {
+    font-size: inherit;
+}
+
+b {
+    font-weight: 400;
+}
+
+button, input, textarea {
+    font-family: 'Microsoft Yahei';
+}
+
+p {
+    margin: 0;
+    word-wrap: break-word;
+}
+ul li {
+    list-style-type: none;
+    cursor: pointer;
+}
+
+input {
+    color: @font-color;
+}
+
+a {
+    color: @select-font-color;
+}
+
+/* 标题样式 */
+.title, .title-nomove {
+    background: #ecf2fc;
+    .height(26px);
+    text-align: left;
+    padding-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.title {
+    cursor: move;
+}
+
+/* 关闭按钮样式 */
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    cursor: pointer;
+
+    &::after {
+        content: '\D7';
+        color: #bbb;
+        font-size: 18px;
+        font-weight: 700;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &:hover::after {
+        color: red;
+    }
+}
+
+.hover {
+    transition: box-shadow 0.3s;
+    &:hover {
+        box-shadow: @hover-shadow;
+    }
+}
+
+/* 单选框样式 */
+.radio {
+    display: none;
+    & + label {
+        position: relative;
+        margin: 0px 3px;
+        cursor: pointer;
+        &:hover {
+            color: #1c9efe;
+        }
+        &::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid #717171;
+            background: #fff;
+            border-radius: 100%;
+            vertical-align: middle;
+            margin-top: -3px;
+            margin-right: 3px;
+        }
+        &::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 4px;
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+        }
+    }
+    &:checked + label {
+        &::before {
+            border: 1px solid #717171;
+        }
+        &::after {
+            background: #717171;
+        }
+    }
+}
+
+/* 复选框样式 */
+.checkbox {
+    display: none;
+    & + label {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 6px;
+        &:hover {
+            color: #1c9efe;
+        }
+        &::before {
+            content: '';
+            width: 14px;
+            height: 14px;
+            border: 1px solid #8c8c8c;
+            background: #fff;
+            display: inline-block;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-top: -3px;
+            // margin-top: -15px;
+            margin-right: 3px;
+        }
+    }
+    &:checked + label {
+        &::before {
+            border: 1px solid #8c8c8c;
+        }
+        &::after {
+            content: '';
+
+            position: absolute;
+            top: 7px;
+            left: 5px;
+
+            width: 3px;
+            height: 6px;
+            border-bottom: 3px solid #717171;
+            border-right: 3px solid #717171;
+
+            transform: rotate(45deg);
+        }
+    }
+}
+
+/* 按钮样式 */
+.btn {
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    height: 26px;
+    line-height: 24px;
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    box-sizing: border-box;
+    color: @font-color;
+    &:hover {
+        transition: box-shadow 0.4s;
+        box-shadow: @btn-shadow;
+    }
+    &.confirm {
+        background: @select-font-color;
+        color: #fff;
+    }
+}
+
+
+
+/* 表格样式 */
+table {
+    color: @font-color;
+    border-spacing: 0px;
+    table-layout: fixed;
+    text-align: center;
+    width: 100%;
+    tr {
+        .height();
+    }
+    thead {
+        background: @title-color;
+        width: 100%;
+        display: block;
+        tr {
+            display: block;
+        }
+    }
+    tbody {
+        position: relative;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+        width: 100%;
+        tr {
+            width: 100%;
+            border-bottom: 1px solid #e0eaf5;
+            cursor: pointer;
+            &:nth-child(2n) {
+                background: #ecf2fc;
+            }
+        }
+    }
+}
+
+/* 加载动画 */
+.loading {
+    z-index: @pop-index;
+    &::not([data-text=''])::before {
+        content: attr(data-text);
+    }
+    &::after,
+    &::before {
+        box-sizing: border-box;
+    }
+    &.loading-default:after {
+        content: '';
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        border: solid 8px rgba(51, 153, 255, 0.85);
+        border-left-color: transparent;
+        border-radius: 50%;
+        top: calc(45%);
+        left: calc(45%);
+        animation: rotation 1s linear infinite;
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+/* 没有数据使用样式 */
+.no-data {
+    // color: #bfbfbf;
+    color: #c0c0c0;
+    position: relative;
+    filter: grayscale(100%);
+    filter: gray;
+    &:hover {
+        // color: #bfbfbf;
+        color: #c0c0c0;
+        // &::before {
+        //     content: '\6682\65E0\6570\636E';
+        //     width: 48px;
+        //     position: absolute;
+        //     top: 36px;
+        //     right: 50%;
+        //     transform: translateX(50%);
+        //     background: #fff;
+        //     color: #27303f;
+        //     border: 1px solid #eee;
+        //     padding: 4px;
+        //     z-index: 9999;
+        // }
+    }
+}
+
+.not-allowed {
+    @color: #c0c0c0;
+    cursor: not-allowed;
+    color: @color;
+    position: relative;
+    filter: grayscale(100%);
+    filter: @color;
+    &:hover {
+        color: @color;
+    }
+}
+
+.suggestion {
+    p {
+        line-height: 22px;
+    }
+}
+
+/* 大屏公用样式 */
+.big {
+    .title {
+        .height-big();
+    }
+    .radio {
+        & + label {
+            .height-big();
+
+            &::before {
+                top: 0;
+                width: 16px;
+                height: 16px;
+                background-size: 16px 16px;
+            }
+
+            &::after {
+                width: 8px;
+                height: 8px;
+                top: 9px;
+                left: 5px;
+            }
+        }
+    }
+    .checkbox {
+        & + label::before {
+            width: 18px;
+            height: 18px;
+            background-size: 16px 16px;
+        }
+        &:checked + label::after {
+            width: 5px;
+            height: 9px;
+            top: 8px;
+            left: 5px;
+            border-bottom: 4px solid #717171;
+            border-right: 4px solid #717171;
+        }
+    }
+    .close {
+        // .height-big();
+        &::after {
+            font-size: @font-big;
+        }
+    }
+    .suggestion {
+        p {
+            line-height: 36px;
+        }
+    }
+    table {
+        tr {
+            .height(@height-big);
+        }
+    }
+
+    .btn {
+        .height(@height-big);
+    }
+}
+
+/* 旧版选中图标 */
+/* em.em-select {
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    display: none;
+    vertical-align: middle;
+    background: #d65601;
+    border-radius: 100%;
+    &::before {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        top: 4px;
+        left: 3px;
+        background: #FFFFFF;
+        width: 1px;
+        height: 4px;
+        transform: rotate(-45deg);
+    }
+    &::after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        top: 2px;
+        left: 6px;
+        background: #FFFFFF;
+        width: 1px;
+        height: 6px;
+        transform: rotate(45deg);
+    }
+} */
+
+/* 单选图标 */
+// .radio {
+//     display: none;
+//     & + label {
+//         display: inline-block;
+//         position: relative;
+//         margin: 0px 3px;
+//         line-height: 20px;
+//         cursor: pointer;
+//         &:hover {
+//             color: @eye-color;
+//         }
+//         &::before {
+//             position: relative;
+//             top: 2px;
+//             content: '';
+//             display: inline-block;
+//             width: 14px;
+//             height: 14px;
+//             margin-right: 2px;
+//             color: @aux-color;
+//             background: url('./radio-uncheck.svg') no-repeat center center/cover ;
+//         }
+//     }
+//     &:checked + label {
+//         &::before {
+//             background: url('./radio-checked.svg') no-repeat center center/cover;
+//         }
+//     }
+// }
+
+/* 复选框样式 */
+// .checkbox {
+//     display: none;
+//     & + label {
+//         display: inline-block;
+//         position: relative;
+//         cursor: pointer;
+//         &:hover {
+//             color: @eye-color;
+//         }
+//         &::before {
+//             position: relative;
+//             top: -2px;
+//             content: '';
+//             display: inline-block;
+//             width: 14px;
+//             height: 14px;
+//             margin: 0 4px;
+//             // margin-bottom: 2px;
+//             color: @aux-color;
+//             background: url('./checkbox-uncheck.svg');
+//             background-size: 14px 14px;
+//             vertical-align: middle;
+//         }
+//     }
+//     &:checked + label {
+//         &::before {
+//             background: url('./checkbox-checked.svg');
+//             background-size: 14px 14px;
+//         }
+//     }
+// }

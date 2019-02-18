@@ -1,0 +1,310 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?igy769');
+  src:  url('fonts/icomoon.eot?igy769#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?igy769') format('truetype'),
+    url('fonts/icomoon.woff?igy769') format('woff'),
+    url('fonts/icomoon.svg?igy769#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sysTip-info:before {
+  content: "\e926";
+  color: #1f7ed0;
+}
+.icon-sysTip-warning:before {
+  content: "\e927";
+  color: #ed3f2b;
+}
+.icon-analysis-baseData:before {
+  content: "\e900";
+  color: #a6a9b0;
+}
+.icon-analysis-navigation:before {
+  content: "\e901";
+  color: #a6a9b0;
+}
+.icon-analysis-plan:before {
+  content: "\e902";
+  color: #a6a9b0;
+}
+.icon-analysis-target:before {
+  content: "\e903";
+  color: #a6a9b0;
+}
+.icon-analysis-town:before {
+  content: "\e904";
+  color: #a6a9b0;
+}
+.icon-chose:before {
+  content: "\e905";
+  color: #d65601;
+}
+.icon-econtrol-arrow:before {
+  content: "\e906";
+  color: #616a79;
+}
+.icon-econtrol-auto:before {
+  content: "\e907";
+  color: #616a79;
+}
+.icon-econtrol-box:before {
+  content: "\e908";
+  color: #616a79;
+}
+.icon-econtrol-circle:before {
+  content: "\e909";
+  color: #616a79;
+}
+.icon-econtrol-close:before {
+  content: "\e90a";
+  color: #fb3838;
+}
+.icon-econtrol-delete:before {
+  content: "\e90b";
+  color: #fb3838;
+}
+.icon-econtrol-fold:before {
+  content: "\e90c";
+  color: #616a79;
+}
+.icon-econtrol-line:before {
+  content: "\e90d";
+  color: #616a79;
+}
+.icon-econtrol-plans:before {
+  content: "\e90e";
+  color: #00a0e9;
+}
+.icon-econtrol-point:before {
+  content: "\e90f";
+  color: #616a79;
+}
+.icon-econtrol-polygon:before {
+  content: "\e910";
+  color: #616a79;
+}
+.icon-econtrol-polyline:before {
+  content: "\e911";
+  color: #616a79;
+}
+.icon-econtrol-save:before {
+  content: "\e912";
+  color: #1f7ed0;
+}
+.icon-econtrol-text:before {
+  content: "\e913";
+  color: #616a79;
+}
+.icon-econtrol-undo:before {
+  content: "\e914";
+  color: #9ac930;
+}
+.icon-econtrol-unfold:before {
+  content: "\e915";
+  color: #616a79;
+}
+.icon-globalSearch-search:before {
+  content: "\e916";
+  color: #ccc;
+}
+.icon-location:before {
+  content: "\e917";
+}
+.icon-location-arrow:before {
+  content: "\e918";
+}
+.icon-next:before {
+  content: "\e919";
+}
+.icon-place:before {
+  content: "\e91a";
+}
+.icon-plans-files .path1:before {
+  content: "\e91b";
+  color: rgb(31, 126, 208);
+}
+.icon-plans-files .path2:before {
+  content: "\e91c";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-plans-files .path3:before {
+  content: "\e91d";
+  margin-left: -1em;
+  color: rgb(31, 126, 208);
+}
+.icon-plans-files .path4:before {
+  content: "\e91e";
+  margin-left: -1em;
+  color: rgb(31, 126, 208);
+}
+.icon-plans-files .path5:before {
+  content: "\e91f";
+  margin-left: -1em;
+  color: rgb(31, 126, 208);
+}
+.icon-plans-files .path6:before {
+  content: "\e920";
+  margin-left: -1em;
+  color: rgb(31, 126, 208);
+}
+.icon-prev:before {
+  content: "\e921";
+}
+.icon-qpe-monitor:before {
+  content: "\e922";
+  color: #56abe4;
+}
+.icon-radar-monitor:before {
+  content: "\e923";
+  color: #f59a28;
+}
+.icon-rain-monitor:before {
+  content: "\e924";
+  color: #2e8af4;
+}
+.icon-sysTip-error:before {
+  content: "\e925";
+  color: #ed3f2b;
+}
+.icon-sysTip-loading:before {
+  content: "\e929";
+  color: #1f7ed0;
+}
+.icon-sysTip-success:before {
+  content: "\e92a";
+  color: #59c130;
+}
+.icon-thunder-monitor:before {
+  content: "\e92e";
+  color: #00bb9c;
+}
+.icon-toolsbar-about:before {
+  content: "\e92f";
+  color: #a6a9b0;
+}
+.icon-toolsbar-atwill:before {
+  content: "\e930";
+  color: #a6a9b0;
+}
+.icon-toolsbar-bigScreen:before {
+  content: "\e931";
+  color: #a6a9b0;
+}
+.icon-toolsbar-boxSelect:before {
+  content: "\e932";
+  color: #a6a9b0;
+}
+.icon-toolsbar-cover:before {
+  content: "\e933";
+  color: #a6a9b0;
+}
+.icon-toolsbar-dataMonitor:before {
+  content: "\e934";
+  color: #a6a9b0;
+}
+.icon-toolsbar-decisionServe:before {
+  content: "\e935";
+  color: #a6a9b0;
+}
+.icon-toolsbar-disaster:before {
+  content: "\e936";
+  color: #a6a9b0;
+}
+.icon-toolsbar-distance:before {
+  content: "\e937";
+  color: #a6a9b0;
+}
+.icon-toolsbar-econtrol:before {
+  content: "\e938";
+  color: #a6a9b0;
+}
+.icon-toolsbar-emergencyLib:before {
+  content: "\e939";
+  color: #a6a9b0;
+}
+.icon-toolsbar-exit:before {
+  content: "\e93a";
+  color: #a6a9b0;
+}
+.icon-toolsbar-globalSearch:before {
+  content: "\e93b";
+  color: #a6a9b0;
+}
+.icon-toolsbar-gridRain:before {
+  content: "\e93c";
+  color: #a6a9b0;
+}
+.icon-toolsbar-historyCase:before {
+  content: "\e93d";
+  color: #a6a9b0;
+}
+.icon-toolsbar-link:before {
+  content: "\e93e";
+  color: #a6a9b0;
+}
+.icon-toolsbar-lonlat:before {
+  content: "\e93f";
+  color: #a6a9b0;
+}
+.icon-toolsbar-maptab:before {
+  content: "\e940";
+  color: #a6a9b0;
+}
+.icon-toolsbar-monitor:before {
+  content: "\e941";
+  color: #a6a9b0;
+}
+.icon-toolsbar-navigation:before {
+  content: "\e942";
+  color: #a6a9b0;
+}
+.icon-toolsbar-opacity:before {
+  content: "\e943";
+  color: #a6a9b0;
+}
+.icon-toolsbar-otherTools:before {
+  content: "\e944";
+  color: #a6a9b0;
+}
+.icon-toolsbar-suggestion:before {
+  content: "\e945";
+  color: #a6a9b0;
+}
+.icon-toolsbar-tag:before {
+  content: "\e946";
+  color: #a6a9b0;
+}
+.icon-toolsbar-track:before {
+  content: "\e947";
+  color: #a6a9b0;
+}
+.icon-toolsbar-video:before {
+  content: "\e948";
+  color: #a6a9b0;
+}
+.icon-toolsbar-warn:before {
+  content: "\e949";
+  color: #a6a9b0;
+}
+.icon-wind-monitor:before {
+  content: "\e94a";
+  color: #6a64d8;
+}
