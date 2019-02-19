@@ -204,7 +204,7 @@ export default {
                             let userId;
                             if (username.endsWith('guest')) {
                                 this.tip = true;
-                                userId = 188; // 188; 343 25
+                                userId = 188; // 188; 343 25 387
                             } else {
                                 userId = data.userId;
                             }

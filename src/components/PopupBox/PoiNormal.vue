@@ -11,7 +11,7 @@
             <div class="title" v-if="(!loud.loudStatus || (loud.loudStatus && !loud.noData)) && !expertList">基本信息</div>
             <div class="mantab" :class="{ 'more' : morebtn}" v-else-if="!!expertList">
                 <ul>
-                    <li v-for="itemname in expertNameList" :key ="itemname"  :class="{'active' : activeName == itemname}" @click="switchExpert(itemname)">{{itemname}}</li>
+                    <li v-for="itemname in expertNameList" :key ="itemname.name"  :class="{'active' : activeName == itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
                 </ul>
                 <span  @click="morebtn = !morebtn" v-if="expertNameList.length > 8"></span>
             </div>
@@ -131,18 +131,19 @@ export default {
             this.normal.poiType = data.poiType;
             this.activeCode = data.areaCode;
             if (this.childDetails && this.popParams.showSelect) this.updateParam([ 'selectPoint', { lonlat: [ data.lon, data.lat ], type: `normal&${data.poiType}` } ]); // 高亮poi
-            if (data.detailMap && data.detailMap.hasOwnProperty('address')) {
+            let detailMap = data.multiMap[Object.keys(data.multiMap)[0]]
+            if (detailMap && detailMap.hasOwnProperty('address')) {
                 this.packLoudData(data); // 组装大喇叭数据
                 return;
             }
-            if (!!data.expertMap) {
+            if (!!data.multiMap) {
                 this.packExpert(data); // 专家数据做特殊处理
                 return;
             }
             let name = '';
-            let len = data.detailMap.length;
+            let len = detailMap.length;
             let detailLen = 0;
-            data.detailMap.every(ele => {
+            detailMap.every(ele => {
                 if (ele.paramTitle.indexOf('名称') !== -1) {
                     name = ele.paramVal;
                     if (ele.paramTitle === '名称') detailLen = len;
@@ -152,7 +153,7 @@ export default {
                 return (detailLen !== len);
             });
             this.normal.traffic = (data.poiType.indexOf('HZ_TRAFFIC') !== -1);
-            this.normal.list = data.detailMap;
+            this.normal.list = detailMap;
         },
 
         /**
@@ -161,7 +162,6 @@ export default {
          * @param {object} data 大喇叭数据
          */
         packLoudData(data) {
-            console.info('-----------')
             const detail = data.detailMap;
             this.loud.loudStatus = true;
             this.loud.noData = !detail.termType;
@@ -189,17 +189,30 @@ export default {
          * @param {object} data 专家数据
          */
         packExpert(data) {
-            this.expertList = data.expertMap;
-            this.expertNameList = Object.keys(this.expertList);
-            this.activeName = this.expertNameList[0];
+            this.expertList = data.multiMap;
+            // this.expertNameList = Object.keys(this.expertList); // 旧结构
+            let expertNameList = []
+            Object.keys(this.expertList).forEach((ele, j) => {
+                for (let i = 0; i < this.expertList[ele].length; i++) {
+                    if (this.expertList[ele][i].paramTitle === '名称') {
+                        expertNameList[j] = {
+                            name: this.expertList[ele][i].paramVal,
+                            id: ele
+                        }
+                        break;
+                    }
+                }
+            })
+            this.expertNameList = expertNameList
+            this.activeName = this.expertNameList[0].id;
             this.activeExpert = Object.values(this.expertList)[0];
         },
         /**
          * 切换专家tab
-         * @param {string} key 专家名
+         * @param {object} item 专家对象
          */
-        switchExpert(key) {
-            this.activeName = key;
+        switchExpert(item) {
+            this.activeName = item.id;
             for (let key in this.expertList) {
                 if (key === this.activeName) {
                     this.activeExpert = this.expertList[key];

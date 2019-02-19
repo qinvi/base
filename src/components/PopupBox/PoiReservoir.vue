@@ -163,7 +163,8 @@ export default {
             this.reservoir.list.updateTime = reservoirDetail.dateTime
             this.reservoir.list.reservoirName = '--'
             this.charts.address = ''
-            reservoirDetail.detailMap.forEach(ele => {
+            let keys = Object.keys(reservoirDetail.multiMap)
+            reservoirDetail.multiMap[keys[0]].forEach(ele => {
                 if (ele.paramTitle === '名称') this.reservoir.list.reservoirName = ele.paramVal;
                 if (ele.paramTitle === '所在行政区划') this.charts.address = ele.paramVal
                 if (ele.paramTitle === '汛限水位') this.reservoir.list.warnWater = (isNaN(Number(ele.paramVal)) || ele.paramVal === '') ? '--' : Number(ele.paramVal).toFixed(2);

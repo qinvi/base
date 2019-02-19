@@ -110,7 +110,9 @@ export default {
                 this.updateParam([ 'selectPoint', { lonlat: [ data.lon, data.lat ], type: `normal&${data.poiType}` } ]); // 高亮poi
             }
             this.activeCode = data.areaCode;
-            let detail = data.detailMap;
+            // let detail = data.detailMap; // 过去结构
+            let keys = Object.keys(data.multiMap) // 现在结构
+            let detail = data.multiMap[keys[0]]
             // 判断key值是否存在储备地址或者应急储备地址
             for (let key in detail[0]) {
                 if (key.indexOf('储备地址') !== -1) {
