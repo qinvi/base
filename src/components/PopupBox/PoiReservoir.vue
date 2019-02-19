@@ -170,7 +170,7 @@ export default {
             })
             this.charts.lonlat = Number(reservoirDetail.lon).toFixed(2) + 'E, ' + Number(reservoirDetail.lat).toFixed(2) + 'N';
 
-            this.reservoir.id = reservoirDetail.d_id;
+            this.reservoir.id = reservoirDetail.areaCode;
             const param = {
                 'code': this.code,
                 'id': this.reservoir.id,
