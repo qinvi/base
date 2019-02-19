@@ -108,11 +108,12 @@ export default {
                     if (!utils.isEmptyObject(json.data)) {
                         // console.info()
                         if (this.reservoirType.includes(json.data.poiType)) return; // 特殊情况、如果水库接口完整后续可cut掉
-                        if (json.data.poiType.includes('TYFON') || json.data.poiType.includes('LCD_LED')) { // 大喇叭
-                            this.getTyfonDetail(params, clickIndex);
-                        } else {
-                            this.clickPlugin('normalCallback', json, clickIndex); // 触发poi点击插件
-                        }
+                        this.clickPlugin('normalCallback', json, clickIndex); // 触发poi点击插件
+                        // if (json.data.poiType.includes('TYFON') || json.data.poiType.includes('LCD_LED')) { // 大喇叭
+                        //     this.getTyfonDetail(params, clickIndex);
+                        // } else {
+                        //     this.clickPlugin('normalCallback', json, clickIndex); // 触发poi点击插件
+                        // }
                     }
                 });
             }, 80);

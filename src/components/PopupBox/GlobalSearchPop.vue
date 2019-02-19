@@ -3,7 +3,8 @@
         <!-- 面板 -->
         <div v-if="popType === 'BaseInfo'"></div>
         <!-- 基础数据弹窗 -->
-        <div class="poiPop" ref="poi-box" v-else>
+        <v-poi-normal :childDetails="detail"></v-poi-normal>
+        <!-- <div class="poiPop" ref="poi-box" v-else>
             <div class="title nullBg" ref="poi-title" :title="normal.name">
                 <label v-if="!loud.loudStatus">{{ normal.name || '' }}</label>
                 <label v-if="loud.loudStatus && !loud.noData">设备所在地：{{ loud.name || '' }}</label>
@@ -40,7 +41,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -54,9 +55,13 @@
  * packLoudData             - 组装大喇叭数据
  */
 import { mapActions, mapState } from 'vuex';
+import PoiNormal from './PoiNormal'
 export default {
     name: 'GlobalPop',
     props: ['detail', 'popType'],
+    components: {
+        'v-poi-normal': PoiNormal
+    },
     data() {
         return {
             normal: {
@@ -83,7 +88,7 @@ export default {
     },
     watch: {
         detail() {
-            this.packData(); // 组装数据
+            // this.packData(); // 组装数据
         }
     },
     methods: {
@@ -155,7 +160,7 @@ export default {
         }
     },
     mounted() {
-        this.packData();
+        // this.packData();
     },
     destroyed() {
     }

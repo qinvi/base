@@ -3,7 +3,7 @@
         <a class="close" @click="close()" v-show="!childDetails || popParams.close"></a>
         <div class="title nullBg" ref="poi-title" :title="normal.name" :style="{cursor: (!childDetails || popParams.noWinDrag) ? 'move' : 'default'}">
             <label v-if="!loud.loudStatus && !expertList">{{ normal.name || '--' }}</label>
-            <label v-else-if="!!expertList">专家详情（共{{expertNameList.length}}人）</label> 
+            <label v-else-if="!!expertList">{{ tabName[1] }}详情（共{{expertNameList.length}}{{ tabName[2]}}）</label> 
             <label v-if="loud.loudStatus && !loud.noData">设备所在地：{{ loud.name || '' }}</label>
             <label v-if="loud.loudStatus && loud.noData">暂无数据</label>
         </div>
@@ -74,6 +74,7 @@ export default {
             activeName: '',
             activeExpert: [],
             morebtn: false,
+            tabName: [],
             expertList: null
         }
     },
@@ -109,6 +110,11 @@ export default {
         initConstData() {
             this.activeCode = '';
             this.morebtn = false;
+            this.matchLCD_LED_TYFON = {
+                'TYFON': '大喇叭',
+                'LCD_LED': '显示屏',
+                'LCD_LED_TYFON': '消息渠道'
+            }
         },
 
         /**
@@ -131,22 +137,28 @@ export default {
             this.normal.poiType = data.poiType;
             this.activeCode = data.areaCode;
             if (this.childDetails && this.popParams.showSelect) this.updateParam([ 'selectPoint', { lonlat: [ data.lon, data.lat ], type: `normal&${data.poiType}` } ]); // 高亮poi
-            let detailMap = data.multiMap[Object.keys(data.multiMap)[0]]
-            if (detailMap && detailMap.hasOwnProperty('address')) {
-                this.packLoudData(data); // 组装大喇叭数据
-                return;
+            let keys = Object.keys(data.multiMap)
+            let detailMap = data.multiMap[keys[0]]
+            // if (detailMap && detailMap.hasOwnProperty('address')) {
+            //     this.packLoudData(data); // 组装大喇叭数据
+            //     return;
+            // }
+            if (data.poiType === 'TYFON' || data.poiType === 'LCD_LED' || data.poiType === 'LCD_LED_TYFON') {
+                this.tabName = ['termId', this.matchLCD_LED_TYFON[data.poiType], '个']
+            } else {
+                this.tabName = ['名称', '专家', '人']
             }
-            if (!!data.multiMap) {
-                this.packExpert(data); // 专家数据做特殊处理
+            if (keys.length > 1) {
+                this.packSimilarExpert(data); // 类似专家的数据做特殊处理
                 return;
             }
             let name = '';
             let len = detailMap.length;
             let detailLen = 0;
             detailMap.every(ele => {
-                if (ele.paramTitle.indexOf('名称') !== -1) {
+                if (ele.paramTitle.indexOf(this.tabName[0]) !== -1) {
                     name = ele.paramVal;
-                    if (ele.paramTitle === '名称') detailLen = len;
+                    if (ele.paramTitle === this.tabName[0]) detailLen = len;
                 }
                 if (detailLen === len) this.normal.name = name;
                 else ++detailLen;
@@ -157,7 +169,7 @@ export default {
         },
 
         /**
-         * 组装大喇叭数据
+         * 组装大喇叭数据、以前结构调用
          *
          * @param {object} data 大喇叭数据
          */
@@ -188,13 +200,13 @@ export default {
          * 组装专家数据
          * @param {object} data 专家数据
          */
-        packExpert(data) {
+        packSimilarExpert(data) {
             this.expertList = data.multiMap;
             // this.expertNameList = Object.keys(this.expertList); // 旧结构
             let expertNameList = []
             Object.keys(this.expertList).forEach((ele, j) => {
                 for (let i = 0; i < this.expertList[ele].length; i++) {
-                    if (this.expertList[ele][i].paramTitle === '名称') {
+                    if (this.expertList[ele][i].paramTitle === this.tabName[0]) {
                         expertNameList[j] = {
                             name: this.expertList[ele][i].paramVal,
                             id: ele
