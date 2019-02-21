@@ -3,7 +3,7 @@
         <a class="close" @click="close()" v-show="!childDetails || popParams.close"></a>
         <div class="title nullBg" ref="poi-title" :title="normal.name" :style="{cursor: (!childDetails || popParams.noWinDrag) ? 'move' : 'default'}">
             <label v-if="!loud.loudStatus && !expertList">{{ normal.name || '--' }}</label>
-            <label v-else-if="!!expertList">{{ tabName[1] }}详情（共{{expertNameList.length}}{{ tabName[2]}}）</label> 
+            <label v-else-if="!loud.loudStatus && !!expertList">{{ tabName[1] }}详情（共{{expertNameList.length}}{{ tabName[2]}}）</label> 
             <label v-if="loud.loudStatus && !loud.noData">设备所在地：{{ loud.name || '' }}</label>
             <label v-if="loud.loudStatus && loud.noData">暂无数据</label>
         </div>
@@ -16,7 +16,7 @@
                 <span  @click="morebtn = !morebtn" v-if="expertNameList.length > 8"></span>
             </div>
             <div class="popTab-box">
-                <div v-if="!loud.loudStatus">
+                <div>
                     <ul v-if="normal.traffic && !expertList">
                         <li v-for="(item, key) in normal.list" :key="key" v-show="item.paramTitle !== '名称' && item.paramVal.indexOf('font') === -1" :title="item.paramVal">{{item.paramTitle}}：{{item.paramVal.trim() || '--'}}</li>
                     </ul>
@@ -28,17 +28,15 @@
                     </ul>
                 </div>
                 <div v-if="loud.loudStatus && !loud.noData">
-                    <ul>
+                    <!-- <ul>
                         <li v-for="(item, index) in loud['defaultList']" :key="index">{{item}}</li>
-                    </ul>
+                    </ul> -->
                     <div class="dalaba"><!--v-show="loud.type !== '大喇叭'"-->
                         <span>最新信息： </span>
-                        <span v-if="!loud.nMessage">
-                            <span v-for="(item, key) in loud.sourceList" :key="key" v-if="!!item" :title="item">
-                                {{item}}
-                            </span>
-                        </span>
-                        <span v-else>
+                        <template v-for="(item, key) in loud.sourceList[activeName]" v-show="loud.status[activeName]">
+                            <span :key="key" v-if="!!item" :title="item">{{item}}</span>
+                        </template>
+                        <span v-show="loud.status[activeName]">
                             <label>暂无最新信息！</label>
                         </span>                        
                     </div>
@@ -67,7 +65,7 @@ export default {
                 type: '', // 类型
                 defaultList: {}, // 默认展示的信息
                 sourceList: {}, // 源消息
-                nMessage: false,
+                status: {},
                 noData: false
             },
             expertNameList: [],
@@ -143,7 +141,8 @@ export default {
             //     this.packLoudData(data); // 组装大喇叭数据
             //     return;
             // }
-            if (data.poiType === 'TYFON' || data.poiType === 'LCD_LED' || data.poiType === 'LCD_LED_TYFON') {
+            let status = data.poiType === 'TYFON' || data.poiType === 'LCD_LED' || data.poiType === 'LCD_LED_TYFON'
+            if (status) {
                 this.tabName = ['termId', this.matchLCD_LED_TYFON[data.poiType], '个']
             } else {
                 this.tabName = ['名称', '专家', '人']
@@ -165,7 +164,11 @@ export default {
                 return (detailLen !== len);
             });
             this.normal.traffic = (data.poiType.indexOf('HZ_TRAFFIC') !== -1);
-            this.normal.list = detailMap;
+            if (status) {
+                this.normal.list = this.packLoudData(data.multiMap)[keys[0]]
+            } else {
+                this.normal.list = detailMap;
+            }
         },
 
         /**
@@ -174,26 +177,57 @@ export default {
          * @param {object} data 大喇叭数据
          */
         packLoudData(data) {
-            const detail = data.detailMap;
+            let p = {}
+            let t = {
+                // address: '地址',
+                termType: '设备类型',
+                termId: '设备编号',
+                status: '当前状态',
+                operator: '维护人员',
+                serviceTel: '联系电话'
+            }
+            let m = {}
+            for (let key in data) {
+                p[key] = []
+                let s = ''
+                m = {}
+                data[key].forEach(ele => {
+                    if (t[ele.paramTitle]) {
+                        p[key].push({paramTitle: t[ele.paramTitle], paramVal: ele.paramVal})
+                        if (ele.paramTitle === 'termId') this.loud.noData = !ele.paramVal
+                    } else {
+                        if (ele.paramTitle === 'address') this.normal.name = this.loud.name = ele.paramVal;
+                        if (ele.paramTitle === 'lon') s = ele.paramVal + s
+                        else if (ele.paramTitle === 'lat') s = s + ',' + ele.paramVal
+                        else if (ele.paramTitle.includes('message')) m[ele.paramTitle] = ele.paramVal
+                    }
+                })
+                const { message1, message2, message3, message4, message5 } = m;
+                this.loud.sourceList[key] = [message1, message2, message3, message4, message5];
+                p[key].unshift({paramTitle: '经纬度', paramVal: s})
+            }
+            // const detail = data.detailMap;
             this.loud.loudStatus = true;
-            this.loud.noData = !detail.termType;
-            this.loud.name = detail.address;
-            this.loud.type = detail.termType;
-            let t = {};
-            t.termType = '设备类型：' + detail.termType;
-            t.termId = '设备编号：' + detail.termId;
-            t.status = '当前状态：' + detail.status;
-            t.lonlat = '经纬度：' + data.lon + ' ，' + data.lat;
-            t.operator = '维护人员：' + detail.operator;
-            t.serviceTel = '联系电话：' + detail.serviceTel;
-            this.loud.defaultList = t;
-            let flag = true;
-            Object.keys(detail).forEach(ele => {
-                if (ele.indexOf('message') !== -1 && !!detail[ele]) flag = false;
+            // this.loud.noData = !detail.termType;
+            // this.loud.name = detail.address;
+            // this.loud.type = detail.termType;
+            // let t = {};
+            // t.termType = '设备类型：' + detail.termType;
+            // t.termId = '设备编号：' + detail.termId;
+            // t.status = '当前状态：' + detail.status;
+            // t.lonlat = '经纬度：' + data.lon + ' ，' + data.lat;
+            // t.operator = '维护人员：' + detail.operator;
+            // t.serviceTel = '联系电话：' + detail.serviceTel;
+            // this.loud.defaultList = t;
+            let sourceList = this.loud.sourceList
+            Object.keys(sourceList).forEach(ele => {
+                this.loud.sourceList[ele].status = true
+                Object.keys(sourceList[ele]).forEach(e => {
+                    this.loud.status[ele] = {}
+                    if (!!sourceList[ele][e]) this.loud.status[ele].status = false
+                })
             });
-            this.loud.nMessage = flag;
-            const { message1, message2, message3, message4, message5 } = detail;
-            this.loud.sourceList = [message1, message2, message3, message4, message5];
+            return p
         },
 
         /**
@@ -201,14 +235,14 @@ export default {
          * @param {object} data 专家数据
          */
         packSimilarExpert(data) {
-            this.expertList = data.multiMap;
+            let expertList = data.multiMap;
             // this.expertNameList = Object.keys(this.expertList); // 旧结构
             let expertNameList = []
-            Object.keys(this.expertList).forEach((ele, j) => {
-                for (let i = 0; i < this.expertList[ele].length; i++) {
-                    if (this.expertList[ele][i].paramTitle === this.tabName[0]) {
+            Object.keys(expertList).forEach((ele, j) => {
+                for (let i = 0; i < expertList[ele].length; i++) {
+                    if (expertList[ele][i].paramTitle === this.tabName[0]) {
                         expertNameList[j] = {
-                            name: this.expertList[ele][i].paramVal,
+                            name: expertList[ele][i].paramVal,
                             id: ele
                         }
                         break;
@@ -217,6 +251,10 @@ export default {
             })
             this.expertNameList = expertNameList
             this.activeName = this.expertNameList[0].id;
+            if (data.poiType === 'TYFON' || data.poiType === 'LCD_LED' || data.poiType === 'LCD_LED_TYFON') {
+                expertList = this.packLoudData(expertList) // 大喇叭、显示屏、消息渠道特殊处理
+            }
+            this.expertList = expertList
             this.activeExpert = Object.values(this.expertList)[0];
         },
         /**
@@ -310,6 +348,11 @@ export default {
                 margin-top: 3px;
                 margin-bottom: 3px;
                 min-height: 30px;
+                &::after {
+                    content: '';
+                    display: block;
+                    clear: both;
+                }                
                 // max-height: 300px;
                 // overflow-y: auto;
             }
