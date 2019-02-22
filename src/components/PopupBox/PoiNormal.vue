@@ -181,11 +181,11 @@ export default {
             let p = {}
             let t = {
                 // address: '地址',
-                termType: '设备类型',
-                termId: '设备编号',
-                status: '当前状态',
-                operator: '维护人员',
-                serviceTel: '联系电话'
+                termType: '设备类型_0',
+                termId: '设备编号_1',
+                status: '当前状态_2',
+                operator: '维护人员_4',
+                serviceTel: '联系电话_5'
             }
             let m = {}
             for (let key in data) {
@@ -194,7 +194,8 @@ export default {
                 m = {}
                 data[key].forEach(ele => {
                     if (t[ele.paramTitle]) {
-                        p[key].push({paramTitle: t[ele.paramTitle], paramVal: ele.paramVal})
+                        let tt = t[ele.paramTitle].split('_')
+                        p[key][tt[1]] = { paramTitle: tt[0], paramVal: ele.paramVal }
                         if (ele.paramTitle === 'termId') this.loud.noData = !ele.paramVal
                     } else {
                         if (ele.paramTitle === 'address') this.normal.name = this.loud.name = ele.paramVal;
@@ -205,7 +206,7 @@ export default {
                 })
                 const { message1, message2, message3, message4, message5 } = m;
                 this.loud.sourceList[key] = [message1, message2, message3, message4, message5];
-                p[key].unshift({paramTitle: '经纬度', paramVal: s})
+                p[key][3] = { paramTitle: '经纬度', paramVal: s }
             }
             // const detail = data.detailMap;
             this.loud.loudStatus = true;
@@ -387,7 +388,7 @@ export default {
             ul li {
                 float: left;
                 cursor: pointer;
-                width: 36px;
+                // width: 36px;
                 text-align: center;
                 margin: 5px 2px;
                 padding: 0 4px;
