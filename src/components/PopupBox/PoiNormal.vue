@@ -11,7 +11,7 @@
             <div class="title" v-if="(!loud.loudStatus || (loud.loudStatus && !loud.noData)) && !expertList">基本信息</div>
             <div class="mantab" :class="{ 'more' : morebtn}" v-else-if="!!expertList">
                 <ul>
-                    <li v-for="itemname in expertNameList" :key ="itemname.name"  :class="{'active' : activeName == itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
+                    <li v-for="itemname in expertNameList" :key ="itemname.name"  :class="{'active' : activeName === itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
                 </ul>
                 <span  @click="morebtn = !morebtn" v-if="expertNameList.length > 8"></span>
             </div>
@@ -36,7 +36,7 @@
                         <template v-for="(item, key) in loud.sourceList[activeName]" v-show="loud.status[activeName]">
                             <span :key="key" v-if="!!item" :title="item">{{item}}</span>
                         </template>
-                        <span v-show="loud.status[activeName]">
+                        <span v-show="!loud.status[activeName]">
                             <label>暂无最新信息！</label>
                         </span>                        
                     </div>
@@ -151,6 +151,7 @@ export default {
                 this.packSimilarExpert(data); // 类似专家的数据做特殊处理
                 return;
             }
+            this.activeName = keys[0]
             let name = '';
             let len = detailMap.length;
             let detailLen = 0;
@@ -227,6 +228,7 @@ export default {
                     if (!!sourceList[ele][e]) this.loud.status[ele].status = false
                 })
             });
+            this.loud = Object.assign({}, this.loud)
             return p
         },
 
