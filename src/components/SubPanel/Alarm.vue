@@ -203,6 +203,7 @@ export default {
         },
 
         showAlarmFunc() {
+            this.cancelTarget()
             this.showAlarm = !this.showAlarm;
             if (this.showAlarm && this.markChange) {
                 this.getList();
