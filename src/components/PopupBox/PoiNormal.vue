@@ -223,10 +223,9 @@ export default {
             // this.loud.defaultList = t;
             let sourceList = this.loud.sourceList
             Object.keys(sourceList).forEach(ele => {
-                this.loud.sourceList[ele].status = true
+                this.loud.status[ele] = false
                 Object.keys(sourceList[ele]).forEach(e => {
-                    this.loud.status[ele] = {}
-                    if (!!sourceList[ele][e]) this.loud.status[ele].status = false
+                    if (!!sourceList[ele][e]) this.loud.status[ele] = true
                 })
             });
             this.loud = Object.assign({}, this.loud)
@@ -443,7 +442,7 @@ export default {
             .mantab {
                 .height(@height-big);
                 ul li {
-                    width: 56px;
+                    // width: 56px;
                     line-height: 22px;
                     font-size: 18px;
                 }
