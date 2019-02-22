@@ -247,6 +247,7 @@ export default {
             this.indexMin = { others: 0, ship: 0 };
             this.lastMinType = '';
             this.load = { timer: null, queue: [] };
+            this.timer = { show: null }
             this.updateParam([ 'time', { loadFunc: this.loadFunc } ]);
             this.updateParam(['alarm', { marquee_Time: this.marquee_Time }]);
         },
@@ -279,18 +280,21 @@ export default {
         },
 
         initTimepicker(type) {
-            let end = (type === 'sys') ? null : ((type === 'start') ? this.rangeTime.end : null);
-            end = (!!end) ? TU(end).format('YYYY-MM-DD HH:mm:ss') : null;
-            let option = {
-                id: 'timeline-' + type + '-time',
-                type: type,
-                top: 30,
-                template: 'YYYY-MM-DD HH:mm:ss',
-                date: TU(this.sys).format('YYYY-MM-DD HH:mm:ss'),
-                lock: { min: true, sec: true }
-            };
-            this.option = Object.assign({ end }, option);
-            this.tps = true;
+            utils.clearTimer(this.timer.show)
+            this.timer.show = window.setTimeout(() => {
+                let end = (type === 'sys') ? null : ((type === 'start') ? this.rangeTime.end : null);
+                end = (!!end) ? TU(end).format('YYYY-MM-DD HH:mm:ss') : null;
+                let option = {
+                    id: 'timeline-' + type + '-time',
+                    type: type,
+                    top: 30,
+                    template: 'YYYY-MM-DD HH:mm:ss',
+                    date: TU(this.sys).format('YYYY-MM-DD HH:mm:ss'),
+                    lock: { min: true, sec: true }
+                };
+                this.option = Object.assign({ end }, option);
+                this.tps = true;
+            }, 80)
         },
 
         initShort(time) {
