@@ -2,9 +2,9 @@
     <div class="poiPop" ref="poi-box">
         <a class="close" @click="close()" v-show="!childDetails || popParams.close"></a>
         <div class="title nullBg" ref="poi-title" :title="normal.name" :style="{cursor: (!childDetails || popParams.noWinDrag) ? 'move' : 'default'}">
-            <label v-if="!loud.loudStatus && !expertList">{{ normal.name || '--' }}</label>
-            <label v-else-if="!loud.loudStatus && !!expertList">{{ tabName[1] }}详情（共{{expertNameList.length}}{{ tabName[2]}}）</label> 
-            <label v-if="loud.loudStatus && !loud.noData">设备所在地：{{ loud.name || '' }}</label>
+            <label v-if="!expertList">{{ normal.name || '--' }}</label>
+            <label v-else-if="!!expertList">{{ tabName[1] }}详情（共{{expertNameList.length}}{{ tabName[2]}}）</label> 
+            <!-- <label v-if="loud.loudStatus && !loud.noData">设备所在地：{{ loud.name || '' }}</label> -->
             <label v-if="loud.loudStatus && loud.noData">暂无数据</label>
         </div>
         <div class="popTab">
