@@ -171,7 +171,7 @@ export default {
             })
             this.charts.lonlat = Number(reservoirDetail.lon).toFixed(2) + 'E, ' + Number(reservoirDetail.lat).toFixed(2) + 'N';
 
-            this.reservoir.id = reservoirDetail.areaCode;
+            this.reservoir.id = reservoirDetail.uid;
             const param = {
                 'code': this.code,
                 'id': this.reservoir.id,
@@ -233,6 +233,8 @@ export default {
             let warn = parseFloat(this.reservoir.list.warnWater);
             let warnHigh = Number((warn + interval).toFixed(2));
             let warnLow = Number((warn - interval).toFixed(2));
+            if (isNaN(warnHigh)) warnHigh = 0
+            if (isNaN(warnLow)) warnLow = 0
             let max = 20;
             let min = 0;
             let dashData = []
@@ -276,7 +278,6 @@ export default {
             }
             if (isNaN(max)) max = 10.0;
             if (isNaN(min)) min = 0;
-
             dashData = this.interpolateMissingValues(levelArr, this.reservoir.list.warnWater)
 
             const cid = 'water-charts';
