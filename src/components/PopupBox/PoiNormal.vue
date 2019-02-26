@@ -13,7 +13,7 @@
                 <ul>
                     <li v-for="itemname in expertNameList" :key ="itemname.name"  :class="{'active' : activeName === itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
                 </ul>
-                <span  @click="morebtn = !morebtn" v-if="expertNameList.length > 8"></span>
+                <span  @click="morebtn = !morebtn" v-show="showBtn"></span>
             </div>
             <div class="popTab-box">
                 <div>
@@ -73,7 +73,8 @@ export default {
             activeExpert: [],
             morebtn: false,
             tabName: [],
-            expertList: null
+            expertList: null,
+            showBtn: false
         }
     },
     computed: {
@@ -88,6 +89,13 @@ export default {
         })
     },
     watch: {
+        expertNameList() {
+            this.$nextTick(() => {
+                var w = document.querySelector('.mantab ul li').clientWidth * this.expertNameList.length
+                var u = document.querySelector('.mantab ul').clientWidth
+                this.showBtn = w > u
+            })
+        },
         code(val) {
             if (this.activeCode && !this.activeCode.includes(val)) {
                 this.close();
@@ -387,7 +395,8 @@ export default {
             padding-right: 30px; 
             position: relative;
             overflow: hidden;
-            ul li {
+            ul{
+              li {
                 float: left;
                 cursor: pointer;
                 // width: 36px;
@@ -399,7 +408,13 @@ export default {
                 &.active {
                     background: #1f7ed0;
                     color: #fff;
-                }
+                }                  
+              }
+              &::after {
+                  content: '';
+                  display: block;
+                  clear: both;
+              }  
             }
             span {
                 cursor: pointer;
