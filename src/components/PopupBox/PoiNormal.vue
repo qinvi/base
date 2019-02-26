@@ -185,9 +185,11 @@ export default {
                 termId: '设备编号_1',
                 status: '当前状态_2',
                 operator: '维护人员_4',
-                serviceTel: '联系电话_5'
+                serviceTel: '联系电话_5',
+                address: '地址_6'
             }
             let m = {}
+            if (Object.keys(data).length === 1) delete t.address
             for (let key in data) {
                 p[key] = []
                 let s = ''
@@ -197,6 +199,7 @@ export default {
                         let tt = t[ele.paramTitle].split('_')
                         p[key][tt[1]] = { paramTitle: tt[0], paramVal: ele.paramVal }
                         if (ele.paramTitle === 'termId') this.loud.noData = !ele.paramVal
+                        if (ele.paramTitle === 'address') this.normal.name = this.loud.name = ele.paramVal;
                     } else {
                         if (ele.paramTitle === 'address') this.normal.name = this.loud.name = ele.paramVal;
                         if (ele.paramTitle === 'lon') s = ele.paramVal + s
