@@ -459,14 +459,25 @@ export default {
                         })
                     }
                 })
-
-                interpolatedValues.forEach((value) => {
+                let dd = -1
+                let ddd = false
+                interpolatedValues.forEach((value, index) => {
                     if (value.y >= warningLevel) {
                         value.marker = {
                             lineColor: '#f00'
                         }
                     }
+                    if (value.y !== null && !ddd) dd = index
+                    else ddd = true
                 })
+                if (dd !== -1) {
+                    for (let i = 0; i < interpolatedValues.length; i++) {
+                        if (interpolatedValues[i].y === null) {
+                            interpolatedValues[i].y = interpolatedValues[dd].y
+                            break;
+                        }
+                    }
+                }
             } else {
                 interpolatedValues = []
             }
