@@ -34,7 +34,7 @@ export default {
     },
     watch: {
         normalPoiType(val) {
-            console.info(val);
+            // console.info(val);
         },
         dateTime(val, prevVal) {
             this.render(val);

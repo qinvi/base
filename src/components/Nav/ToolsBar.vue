@@ -162,9 +162,15 @@ export default {
     },
 
     watch: {
-        marqueeLength() {
-            this.navItems.warn.name = '任意点风险预警：' + this.marqueeLength;
+        marqueeLength(val) {
+            this.navItems.warn.name = '任意点风险预警：' + val;
             this.navItems = Object.assign({}, this.navItems, {});
+            if (val) {
+                utils.clearTimer(this.timer.delay)
+                this.timer.delay = window.setTimeout(() => {
+                    this.showAlarmFunc()
+                }, 80)
+            }
         },
         'navItems.warn.status'() {
             if (this.selectTrigger) this.showAlarmFunc();
@@ -220,6 +226,7 @@ export default {
                 exit: '/dss/'
                 // exit: `http://127.0.0.1:8090/login/loginOut?code=${this.code}` // 退出登录
             }
+            this.timer = { delay: null, copy: null }
         },
 
         updateTools(type, open = false) {
@@ -349,8 +356,8 @@ export default {
             document.getElementById('link-path').select();
             document.execCommand('copy');
             this.link.tip = '复制成功！'
-            utils.clearTimer(this.timer);
-            this.timer = window.setTimeout(() => {
+            utils.clearTimer(this.timer.copy);
+            this.timer.copy = window.setTimeout(() => {
                 this.link.tip = ''
             }, 5000);
         },
