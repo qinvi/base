@@ -9,7 +9,7 @@
         </div>
         <div class="popTab">
             <div class="title" v-if="(!loud.loudStatus || (loud.loudStatus && !loud.noData)) && !expertList">基本信息</div>
-            <div class="mantab" :class="{ 'more' : morebtn}" v-else-if="!!expertList">
+            <div id="mantab" class="mantab" :class="{ 'more' : morebtn}" v-else-if="!!expertList">
                 <ul>
                     <li v-for="itemname in expertNameList" :key ="itemname.name"  :class="{'active' : activeName === itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
                 </ul>
@@ -48,6 +48,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import IScroll from 'iscroll';
 export default {
     name: 'PoiNormal',
     props: [ 'childDetails', 'popParams' ],
@@ -96,6 +97,9 @@ export default {
                 this.showBtn = w > u
             })
         },
+        morebtn(val) {
+            this.setScroll(val)
+        },
         code(val) {
             if (this.activeCode && !this.activeCode.includes(val)) {
                 this.close();
@@ -121,8 +125,35 @@ export default {
                 'LCD_LED': '显示屏',
                 'LCD_LED_TYFON': '消息渠道'
             }
+            this.scroll = null
         },
 
+        /**
+         * 设置滚动条
+         * @param status
+         */
+        setScroll(status) {
+            if (!status) {
+                this.scroll.scrollTo(0, 0)
+                this.scroll.destroy()
+                this.scroll = null
+            } else {
+                this.$nextTick(() => {
+                    if (this.scroll) this.scroll.refresh()
+                    else {
+                        /* eslint-disable */
+                        this.scroll = new IScroll('#mantab', {
+                            mouseWheel: true,
+                            scrollbars: true,
+                            disableMouse: true,
+                            interactiveScrollbars: true,
+                            disablePointer: true,
+                            click: false
+                        });
+                    }
+                })
+            }
+        },
         /**
          * 组装列表内容
          *
@@ -439,7 +470,7 @@ export default {
                 
             }
             &.more {
-                height: auto!important;
+                height: 150px!important;
                 span {
                     transform: rotate(-135deg);
                     top: 10px;

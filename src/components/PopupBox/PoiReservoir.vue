@@ -410,7 +410,6 @@ export default {
 
                         continuousData = []
                     }
-
                     if (level !== null || idx >= dataArray.length - 1) {
                         continuousData.push([idx, level])
                         if (segStartIdx >= 0) {
