@@ -202,9 +202,9 @@ export default {
             this.newPsScroller();
         },
 
-        showAlarmFunc() {
+        showAlarmFunc(val = -1) {
             this.cancelTarget()
-            this.showAlarm = !this.showAlarm;
+            this.showAlarm = (val === -1) ? !this.showAlarm : val
             if (this.showAlarm && this.markChange) {
                 this.getList();
                 this.markChange = false;

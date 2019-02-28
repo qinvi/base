@@ -168,12 +168,12 @@ export default {
             if (val) {
                 utils.clearTimer(this.timer.delay)
                 this.timer.delay = window.setTimeout(() => {
-                    this.showAlarmFunc()
+                    this.showAlarmFunc(val)
                 }, 80)
             }
         },
-        'navItems.warn.status'() {
-            if (this.selectTrigger) this.showAlarmFunc();
+        'navItems.warn.status'(val) {
+            if (this.selectTrigger) this.showAlarmFunc(val);
         },
         about() {
             this.moreItems.about.status = this.about;

@@ -86,6 +86,7 @@ export default {
             normalType: state => state.normalPoiDetail.type,
             callbackActiveType: state => state.selectPoint.callbackActiveType,
             sysTime: state => state.time.sysTime,
+            poisSorted: state => state.userSetting.poisSorted,
             removeSelectPoint: state => state.selectPoint.remove
         })
     },
@@ -293,6 +294,16 @@ export default {
                     }
                 }
             })
+            let poiType = data.poiType
+            if (data.poiType.includes('IDEA')) poiType = data.poiType.split('_').join('')
+            if (this.poisSorted.length) {
+                let t
+                this.poisSorted.forEach(ele => {
+                    t = 'pois' + '_' + ele.key + '_' + poiType
+                    if (ele.data[t]) this.tabName[1] = ele.data[t].text
+                })
+            }
+            this.tabName[2] = (this.tabName[1] === '专家') ? '人' : '个'
             this.expertNameList = expertNameList
             this.activeName = this.expertNameList[0].id;
             if (data.poiType === 'TYFON' || data.poiType === 'LCD_LED' || data.poiType === 'LCD_LED_TYFON') {
