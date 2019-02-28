@@ -384,6 +384,13 @@ export default {
                     // text-indent: 10px;
                 }
             }
+            .dalaba {
+                width: 98%;
+                margin: auto;
+                li {
+                    width: 100%;
+                }
+            }
             .dalaba li{
                 width: 100%;
                 
