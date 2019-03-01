@@ -1,5 +1,5 @@
 <template>
-    <div class="marquee" v-show="realLength || showHistory" :style="{width: hideLamp ? '100%' : 'auto'}">
+    <div class="marquee" :style="{width: hideLamp ? '100%' : 'auto'}"><!--v-show="realLength || showHistory"-->
         <div class="leftMar marAbsolute">
             <span class="cbox" :class="{'checked': cancelBox}" @click="cancel()"></span>
             <span>告警提醒</span>
@@ -41,7 +41,7 @@ export default {
             lampList: [],
             realLength: 0,
             hoverMarquee: false,
-            hideLamp: true, // 走马灯隐藏
+            hideLamp: false, // 走马灯隐藏
             showHistory: true, // 展示数据
             cancelBox: true, // 告警提醒点击
             historyStatus: 2, // 历史查询状态

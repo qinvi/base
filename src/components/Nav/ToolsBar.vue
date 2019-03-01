@@ -165,12 +165,12 @@ export default {
         marqueeLength(val) {
             this.navItems.warn.name = '任意点风险预警：' + val;
             this.navItems = Object.assign({}, this.navItems, {});
-            if (val) {
-                utils.clearTimer(this.timer.delay)
-                this.timer.delay = window.setTimeout(() => {
-                    this.select('warn', this.navItems.warn)
-                }, 1000)
-            }
+            // if (val) {
+            //     utils.clearTimer(this.timer.delay)
+            //     this.timer.delay = window.setTimeout(() => {
+            //         this.select('warn', this.navItems.warn)
+            //     }, 1000)
+            // }
         },
         'navItems.warn.status'(val) {
             if (this.selectTrigger) this.showAlarmFunc(val);
