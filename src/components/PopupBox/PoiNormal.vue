@@ -11,7 +11,7 @@
             <div class="title" v-if="(!loud.loudStatus || (loud.loudStatus && !loud.noData)) && !expertList">基本信息</div>
             <div id="mantab" class="mantab" :class="{ 'more' : morebtn}" v-else-if="!!expertList">
                 <ul>
-                    <li v-for="itemname in expertNameList" :key ="itemname.name"  :class="{'active' : activeName === itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
+                    <li v-for="(itemname, index) in expertNameList" :key ="itemname.name + index"  :class="{'active' : activeName === itemname.id}" @click="switchExpert(itemname)">{{itemname.name}}</li>
                 </ul>
                 <span  @click="morebtn = !morebtn" v-show="showBtn"></span>
             </div>
