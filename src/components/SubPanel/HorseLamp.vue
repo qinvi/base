@@ -122,6 +122,7 @@ export default {
          * @param {object} json { 组装过的传送数据, poi详情请求过来的数据 }
          */
         carryDataAndStatus(json) {
+            json.data.multiMap = { [json.data.areaCode]: json.data.detailMap }
             this.clearTimer();
             this.removeSelectPoint('monitor', 'alarm');
             this.updateParam([ 'selectPoint', { lonlat: [ json.data.lon, json.data.lat ], type: 'normal&alarm' } ]); // 高亮poi

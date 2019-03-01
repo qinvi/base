@@ -445,7 +445,6 @@ export default {
                 })
 
                 const dashIndices = interpolatedValues.map(item => item.x)
-
                 dataArray.forEach((level, idx) => {
                     if (!dashIndices.includes(idx)) {
                         interpolatedValues.splice(idx, 0, { x: idx, y: null })
@@ -470,12 +469,11 @@ export default {
                     if (value.y !== null && !ddd) dd = index
                     else ddd = true
                 })
-                if (dd !== -1) {
-                    for (let i = 0; i < interpolatedValues.length; i++) {
-                        if (interpolatedValues[i].y === null) {
-                            interpolatedValues[i].y = interpolatedValues[dd].y
-                            break;
-                        }
+                for (let i = 0; i < interpolatedValues.length; i++) {
+                    interpolatedValues[i].x = i
+                    if (interpolatedValues[i].y === null && dd !== -1) {
+                        interpolatedValues[i].y = interpolatedValues[dd].y
+                        break;
                     }
                 }
             } else {
