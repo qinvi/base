@@ -481,7 +481,8 @@ export default {
                 
             }
             &.more {
-                height: 150px!important;
+                max-height: 154px!important;
+                height: auto!important;
                 span {
                     transform: rotate(-135deg);
                     top: 10px;

@@ -278,7 +278,7 @@ export default {
                     lon,
                     lat,
                     poiType: 'extra' + this.type,
-                    detailMap: transData
+                    multiMap: { [areaCode]: transData }
                 }
             }
             this.updateParam([ 'selectPoint', { lonlat: [ json.data.lon, json.data.lat ], type: `normal&${this.type}` } ]); // 高亮poi
