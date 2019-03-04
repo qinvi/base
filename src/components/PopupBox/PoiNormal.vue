@@ -82,6 +82,7 @@ export default {
         ...mapState({
             code: state => state.sys.code,
             detail: state => state.normalPoiDetail.data,
+            bigScreen: state => state.toolsBar.bigScreen,
             normalSelect: state => state.normalPoiDetail.selectPoiType,
             normalType: state => state.normalPoiDetail.type,
             callbackActiveType: state => state.selectPoint.callbackActiveType,
@@ -101,6 +102,9 @@ export default {
                 })
                 this.showBtn = w > u
             })
+        },
+        bigScreen() {
+            this.setScroll(true)
         },
         morebtn(val) {
             this.setScroll(val)
