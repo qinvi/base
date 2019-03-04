@@ -64,9 +64,11 @@ export default {
             poiOrder: state => state.userSetting.poiOrder
         }),
         PARAMSToPoi() {
+            const imageUrl = sysconfig.TESTPATH + ((this.modelParam.hasOwnProperty('pType')) ? MD.url[this.modelParam.pType].poiImage : MD.url[this.modelParam.modelType].poiImage);
+            const detailUrl = sysconfig.TESTPATH + ((this.modelParam.hasOwnProperty('pType')) ? MD.url[this.modelParam.pType].poiDetail : MD.url[this.modelParam.modelType].poiDetail);
             let PARAMSToPoi = {
-                imageUrl: sysconfig.TESTPATH + MD.url[this.modelParam.pType].poiImage,
-                detailUrl: sysconfig.TESTPATH + MD.url[this.modelParam.pType].poiDetail,
+                imageUrl: imageUrl,
+                detailUrl: detailUrl,
                 asyncType: 'GET', // 默认是get请求,
                 type: 'model',
                 params: {} // 请求参数
