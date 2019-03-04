@@ -91,7 +91,7 @@ export default {
 
         &.wx1 {
             background-position: 0 -290px;
-            &::before { content: '组合影像图' }
+            &::before { content: '影像天地图' }
         }        
 
         &.dx{
@@ -105,7 +105,7 @@ export default {
         }
         &.dt1 {
             background-position: 0 -232px;
-            &::before { content: '组合业务图' }
+            &::before { content: '业务天地图' }
         }        
 
         &.map-active {
