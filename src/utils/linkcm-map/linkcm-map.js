@@ -17,10 +17,25 @@ var lmap = {
         zoom: 8,
         minZoom: 5,
         maxZoom: 16,
-        url: sysconfig.IP
-        // url: 'http://10.148.10.208'
-        // url: 'http://120.26.220.66:8090/web_static/{t}/{z}/{x}/{y}.png'
-        // url: 'http://mt3.google.cn/vt/lyrs=m&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}&apistyle=s.t%3A3%7Cp.v%3Aoff'
+        url: sysconfig.IP,
+        layerNote: { // 0: 瓦片图层 1：标注图层
+            dt1: [
+                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMap/wmts',
+                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktMap/wmts',
+                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+            ],
+            wx1: [
+                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktImage/wmts',
+                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktImage/wmts',
+                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+            ],
+            dh: [
+                'http://10.148.16.56/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts'
+                // sysconfig.IP + '/dt-gd/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts/'
+            ]
+        }
     },
 
     initMap(id) {
@@ -39,7 +54,7 @@ var lmap = {
                     maxZoom: this.config.maxZoom
                 })
             });
-            map.setLayerGroup(new ol.layer.Group({ layers: [this.initWMTS()] }));
+            map.setLayerGroup(new ol.layer.Group({ layers: [this.initWMTS('dh')] }));
             let view = map.getView();
             view.setCenter(util.transform(this.config.center));
             this.map = map;
@@ -50,56 +65,119 @@ var lmap = {
         }
     },
 
-    initWMTS() {
+    /**
+     * 加载注记图层、目前只有dt1跟wx1会调用
+     * @param {String} type 类型
+     */
+    initNote(type) {
         let extent = ol.proj.get(sysconfig.SYSTEM_PROJECTION).getExtent();
         let size = ol.extent.getWidth(extent) / 256; // 512
         let resolutions = [];
         let matrixIds = [];
-        for (let z = 0; z < 14; ++z) {
+        for (let z = 0; z < 19; ++z) {
             resolutions[z] = size / Math.pow(2, z);
             matrixIds[z] = z;
         }
-        let layer = new ol.layer.Tile({
-            source: new ol.source.WMTS({
-                url: this.config.url + '/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts', // http://10.148.10.131:9080
-                layer: 'img',
-                matrixSet: 'default028mm',
-                format: 'image/png',
-                style: 'default',
-                wrapX: true,
-                projection: sysconfig.SYSTEM_PROJECTION,
-                crossOrigin: 'Anonymous',
-                tileGrid: new ol.tilegrid.WMTS({
-                    origin: [-20037508.34278924, 20037508.34278924],
-                    resolutions: resolutions,
-                    matrixIds: matrixIds
-                })
+        const source = new ol.source.WMTS({
+            url: this.config.layerNote[type][1],
+            layer: 'img',
+            matrixSet: 'default028mm',
+            format: 'image/png',
+            style: 'default',
+            wrapX: true,
+            projection: sysconfig.SYSTEM_PROJECTION,
+            crossOrigin: 'Anonymous',
+            tileGrid: new ol.tilegrid.WMTS({
+                origin: [-20037508.34278924, 20037508.34278924],
+                resolutions: resolutions,
+                matrixIds: matrixIds
             })
+        })
+        source.set('mapName', 'note')
+        let layer = new ol.layer.Tile({
+            source: source
+        });
+        return layer;
+    },
+
+    /**
+     * 加载wmts图层
+     * @param {string} type 图层类型
+     */
+    initWMTS(type) {
+        let extent = ol.proj.get(sysconfig.SYSTEM_PROJECTION).getExtent();
+        let size = ol.extent.getWidth(extent) / 256; // 512
+        let resolutions = [];
+        let matrixIds = [];
+        for (let z = 0; z < 19; ++z) {
+            resolutions[z] = size / Math.pow(2, z);
+            matrixIds[z] = z;
+        }
+        const source = new ol.source.WMTS({
+            // url: this.config.url + '/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts', // http://10.148.10.131:9080
+            url: this.config.layerNote[type][0],
+            layer: 'img',
+            matrixSet: 'default028mm',
+            format: 'image/png',
+            style: 'default',
+            wrapX: true,
+            projection: sysconfig.SYSTEM_PROJECTION,
+            crossOrigin: 'Anonymous',
+            tileGrid: new ol.tilegrid.WMTS({
+                origin: [-20037508.34278924, 20037508.34278924],
+                resolutions: resolutions,
+                matrixIds: matrixIds
+            })
+        })
+        source.set('mapName', 'map')
+        let layer = new ol.layer.Tile({
+            source: source
         });
         return layer;
     },
 
     switchMap(type) {
         let layers = this.map.getLayers().getArray();
-        if (type === 'dh') {
-            layers[0] = this.initWMTS();
-        } else {
-            layers[0] = this.initBaseLayer(type);
+        let noteIndex = -1, mapIndex = -1;
+        layers.forEach((ele, i) => {
+            if (ele.getSource().get('mapName') === 'map') mapIndex = i
+            if (ele.getSource().get('mapName') === 'note') noteIndex = i
+        })
+
+        if (type === 'dh' || type === 'dt1' || type === 'wx1') { // 切换wmts图层
+            layers[mapIndex] = this.initWMTS(type);
+        } else { // 切换wms图层
+            layers[mapIndex] = this.initBaseLayer(type);
+        }
+        if ('dt1' === type || 'wx1' === type) { // 添加标注图
+            if (noteIndex !== -1) layers[noteIndex] = this.initNote(type);
+            else this.map.addLayer(this.initNote(type))
+        } else { // 移除标注图
+            if (-1 !== noteIndex) this.map.removeLayer(layers[noteIndex]);
         }
         this.map.setLayerGroup(new ol.layer.Group({ layers: layers }));
+        // let layers = this.map.getLayers().getArray();
+        // if (type === 'dh') {
+        //     layers[0] = this.initWMTS();
+        // } else {
+        //     layers[0] = this.initBaseLayer(type);
+        // }
+        // this.map.setLayerGroup(new ol.layer.Group({ layers: layers }));
     },
 
     initBaseLayer(type = 'dt') {
         let url = this.config.url + '/' + type + '/{z}/{x}/{y}.png';
+        const source = new ol.source.XYZ({
+            crossOrigin: 'Anonymous',
+            projection: sysconfig.SYSTEM_PROJECTION,
+            tileSize: 256,
+            tileUrlFunction(tileCoord) {
+                return url.replace('{z}', tileCoord[0]).replace('{x}', tileCoord[1]).replace('{y}', (-tileCoord[2] - 1));
+            }
+        })
+        source.set('mapName', 'map')
         let layer = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                crossOrigin: 'Anonymous',
-                projection: sysconfig.SYSTEM_PROJECTION,
-                tileSize: 256,
-                tileUrlFunction(tileCoord) {
-                    return url.replace('{z}', tileCoord[0]).replace('{x}', tileCoord[1]).replace('{y}', (-tileCoord[2] - 1));
-                }
-            })
+            source: source
         });
         return layer;
     },

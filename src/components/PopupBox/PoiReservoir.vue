@@ -469,11 +469,12 @@ export default {
                     if (value.y !== null && !ddd) dd = index
                     else ddd = true
                 })
-                for (let i = 0; i < interpolatedValues.length; i++) {
-                    interpolatedValues[i].x = i
-                    if (interpolatedValues[i].y === null && dd !== -1) {
-                        interpolatedValues[i].y = interpolatedValues[dd].y
-                        break;
+                if (dd !== -1) {
+                    for (let i = 0; i < interpolatedValues.length; i++) {
+                        if (interpolatedValues[i].y === null) {
+                            interpolatedValues[i].y = interpolatedValues[dd].y
+                            break;
+                        }
                     }
                 }
             } else {
