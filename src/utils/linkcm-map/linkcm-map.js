@@ -20,20 +20,20 @@ var lmap = {
         url: sysconfig.IP,
         layerNote: { // 0: 瓦片图层 1：标注图层
             dt1: [
-                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMap/wmts',
-                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMapAnno/wmts'
-                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktMap/wmts',
-                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+                // 'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMap/wmts',
+                // 'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+                sysconfig.IP + '/zs/data/TdtMkt/TdtMktMap/wmts',
+                sysconfig.IP + '/zs/data/TdtMkt/TdtMktMapAnno/wmts'
             ],
             wx1: [
-                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktImage/wmts',
-                'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMapAnno/wmts'
-                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktImage/wmts',
-                // sysconfig.IP + '/dt-gd/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+                // 'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktImage/wmts',
+                // 'http://10.148.10.131:9080/zs/data/TdtMkt/TdtMktMapAnno/wmts'
+                sysconfig.IP + '/zs/data/TdtMkt/TdtMktImage/wmts',
+                sysconfig.IP + '/zs/data/TdtMkt/TdtMktMapAnno/wmts'
             ],
             dh: [
-                'http://10.148.16.56/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts'
-                // sysconfig.IP + '/dt-gd/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts/'
+                // 'http://10.148.16.56/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts'
+                sysconfig.IP + '/zs/data/Gmap/DH/DH_Colour_All_MKT_NEW/wmts/'
             ]
         }
     },

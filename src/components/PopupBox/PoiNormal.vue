@@ -93,8 +93,12 @@ export default {
     watch: {
         expertNameList() {
             this.$nextTick(() => {
-                var w = document.querySelector('.mantab ul li').clientWidth * this.expertNameList.length
+                const li = document.querySelectorAll('.mantab ul li')
+                let w = 0
                 var u = document.querySelector('.mantab ul').clientWidth
+                li.forEach(ele => {
+                    w += ele.clientWidth
+                })
                 this.showBtn = w > u
             })
         },
@@ -110,6 +114,8 @@ export default {
             this.packData();
         },
         detail() {
+            this.morebtn = false
+            this.setScroll(false)
             this.packData(); // 组装数据
         }
     },
@@ -134,7 +140,7 @@ export default {
          * @param status
          */
         setScroll(status) {
-            if (!status) {
+            if (!status && this.scroll) {
                 this.scroll.scrollTo(0, 0)
                 this.scroll.destroy()
                 this.scroll = null
