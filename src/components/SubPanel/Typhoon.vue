@@ -294,7 +294,8 @@ export default {
          * @param {number} index 台风下标
          */
         showTimeList(item, index) {
-            return (TU(item.crtime).format('YYYYMMDDHHmmss') <= TU(this.sysTime).format('YYYYMMDDHHmmss')) && (this.moreOrless['typhoonList'] || (index === this.typhoon.initSelect));
+            let t = (TU(item.crtime).format('YYYYMMDDHHmmss') <= TU(this.sysTime).format('YYYYMMDDHHmmss')) && (this.moreOrless['typhoonList'] || (index === this.typhoon.initSelect));
+            return t;
         },
 
         /**
@@ -350,6 +351,7 @@ export default {
          * 台风列表生成
          */
         list() {
+            this.typhoon.initSelect = 0;
             this.loading = true;
             // const queryTime = this.sysTime.getTime();
             const queryTime = TU(new Date(this.sysTime.getTime())).format('YYYYMMDDHH');
