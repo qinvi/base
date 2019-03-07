@@ -97,9 +97,10 @@ export default {
                 const li = document.querySelectorAll('.mantab ul li')
                 let w = 0
                 var u = document.querySelector('.mantab ul').clientWidth
-                li.forEach(ele => {
-                    w += ele.clientWidth
-                })
+                for (let i = 0; i < li.length; i++) {
+                    w += li[i].clientWidth
+                    if (w > u) break;
+                }
                 this.showBtn = w > u
             })
         },

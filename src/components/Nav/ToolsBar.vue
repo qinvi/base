@@ -51,7 +51,7 @@
         <v-track v-if="moreItems.track.status"></v-track>
         <v-emergency-lib v-if="navItems.emergencyLib.status"></v-emergency-lib>
         <v-video-back v-if="navItems.video.status"></v-video-back>
-        <v-suggestion v-if="moreItems.suggestion.status"></v-suggestion>
+        <!-- <v-suggestion v-if="moreItems.suggestion.status"></v-suggestion> -->
         <v-history-case v-if="navItems.historyCase.status"></v-history-case>
         <v-alarm></v-alarm>
     </div>
@@ -74,7 +74,7 @@ import Tag from '../SubPanel/Tag';
 import EmergencyLib from '../SubPanel/EmergencyLib';
 import DecideServe from '../SubPanel/DecideServe';
 import VideoBack from '../SubPanel/VideoBack';
-import Suggestion from '../SubPanel/Suggestion';
+// import Suggestion from '../SubPanel/Suggestion';
 import Warn from '../SubPanel/Alarm';
 import HistoryCase from '../SubPanel/HistoryCase/HistoryCaseMain';
 import { Base64 as base64 } from 'js-base64'
@@ -96,7 +96,7 @@ export default {
         'v-emergency-lib': EmergencyLib,
         'v-decide-serve': DecideServe,
         'v-video-back': VideoBack,
-        'v-suggestion': Suggestion,
+        // 'v-suggestion': Suggestion,
         'v-alarm': Warn,
         'v-history-case': HistoryCase
     },
@@ -125,7 +125,7 @@ export default {
                 monitor: { name: '数据监控', status: false },
                 bigScreen: { name: '大屏', status: false },
                 cover: { name: '遮罩', status: false },
-                suggestion: { name: '意见', status: false },
+                // suggestion: { name: '意见', status: false },
                 opacity: { name: '透明度', status: false },
                 link: { name: '省突平台', status: false },
                 oppLink: { name: '后台管理', status: false, cls: 'link' },
@@ -319,7 +319,7 @@ export default {
                 case 'oppLink':
                     this.moreItems.oppLink.status = false;
                     // window.open('http://10.148.10.208:5008');
-                    window.open('http://10.148.16.56:8080');
+                    window.open('https://10.148.16.56:8080/#/login');
                     break;
                 case 'monitor':
                     this.moreItems.monitor.status = false;
