@@ -217,7 +217,7 @@ export default {
         typhoonTips() {
             const roadInfo = this.roadInfo;
             let point = null;
-            let param = {};
+            let param = null;
             if (roadInfo.cur === '****') {
                 param = { status: false };
                 // this.updateParam(['tip', {typhoon: {status: false}}]);
@@ -246,7 +246,7 @@ export default {
             this.lastTimePlay = val
         },
         typhoonTips() {
-            this.updateParam([ 'tip', { typhoon: this.typhoonTips } ]);
+            if (this.typhoonTips) this.updateParam([ 'tip', { typhoon: this.typhoonTips } ]);
         },
         sysTime(val, prevVal) {
             try {
@@ -535,7 +535,7 @@ export default {
                 const [points, inilid, tscname, tsename] = [fst, item.inilid, item.tscname, item.tsename];
                 this.roadInfo.points[zero.tsid] = {points, inilid, tscname, tsename};
                 if (tsid === -1) {
-                    this.roadInfo.validTyName.push(zero.tsid);
+                    if (!this.roadInfo.validTyName.includes(zero.tsid)) this.roadInfo.validTyName.push(zero.tsid);
                     this.roadInfo.cur = zero.tsid;
                 }
             }
@@ -649,7 +649,7 @@ export default {
          * @param {number} force 默认-1，false||true，强制勾选或删除
          */
         select(item, index, force) {
-            let indexEd, points;
+            let indexEd;
             this.roadInfo.listIndex = -1;
             if (force !== -1 && force) {
                 indexEd = this.typhoon.select.indexOf(item.tsid);
@@ -681,7 +681,7 @@ export default {
                 }
                 if (item.tsid === this.influence.tsid) this.influence = { city: [], county: [], town: [] }; // 清除影响范围数据
                 if (item.tsid === this.distance.tsid) this.distance = { data: [] }; // 清除影响范围数据
-                points = JSON.parse(JSON.stringify(this.roadInfo.points));
+                // points = JSON.parse(JSON.stringify(this.roadInfo.points));
                 if (!!this.roadInfo.points[item.tsid]) { // 有路径、cut掉路径
                     const i = this.roadInfo.validTyName.findIndex((val) => {
                         return (val === item.tsid);
@@ -693,7 +693,8 @@ export default {
                 this.roadInfo.cur = this.roadInfo.validTyName.length ? this.roadInfo.validTyName[this.roadInfo.validTyName.length - 1] : '****';
                 this.typhoon.paths = Object.assign(new Map(this.typhoon.paths), this.typhoon.paths)
             }
-            this.roadInfo = Object.assign({}, this.roadInfo, points);
+            // this.roadInfo = Object.assign({}, this.roadInfo, points);
+            this.roadInfo = Object.assign({}, this.roadInfo);
         },
 
         /**
