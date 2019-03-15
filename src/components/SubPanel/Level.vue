@@ -90,7 +90,7 @@ export default {
             }
         },
         bigScreen() {
-            this.computedBottom(this.marqueeHide);
+            this.computedBottom(this.lastMarBoolean);
         },
         min() {
             this.computedBottom(this.lastMarBoolean);
@@ -146,7 +146,9 @@ export default {
          */
         computedBottom(marBoolean = this.lastMarBoolean, minBoolean = this.min) {
             this.lastMarBoolean = marBoolean
-            this.levelBottom = this.marqueeLevel[marBoolean + '_' + minBoolean] + (this.bigScreen ? 18 : 0) + 'px';
+            let levelBottom = this.marqueeLevel[marBoolean + '_' + minBoolean] + (this.bigScreen ? 18 : 0);
+            if (this.bigScreen && marBoolean && minBoolean) levelBottom += 10
+            this.levelBottom = levelBottom + 'px'
         },
 
         /**
