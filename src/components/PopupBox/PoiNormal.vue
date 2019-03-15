@@ -460,7 +460,7 @@ export default {
                 float: left;
                 cursor: pointer;
                 // width: 36px;
-                text-align: center;
+                text-align: left;
                 margin: 5px 2px;
                 padding: 0 4px;
                 border-radius: 5px;
