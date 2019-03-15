@@ -294,6 +294,7 @@ export default {
          * @param {number} index 台风下标
          */
         showTimeList(item, index) {
+            // console.info(index, this.typhoon.initSelect)
             let t = (TU(item.crtime).format('YYYYMMDDHHmmss') <= TU(this.sysTime).format('YYYYMMDDHHmmss')) && (this.moreOrless['typhoonList'] || (index === this.typhoon.initSelect));
             return t;
         },
@@ -366,9 +367,13 @@ export default {
                 this.typhoon.data = json;
 
                 let hasActiveTyphoon = false
+                let selectIndex = true
                 json.forEach((typhoon, i) => {
-                    if (!typhoon.bjtime) return
-
+                    if (!typhoon.bjtime) {
+                        return
+                    }
+                    if (selectIndex) this.typhoon.initSelect = i
+                    selectIndex = false
                     const startTime = TU(typhoon.crtime).format('YYYYMMDDHH')
                     // 在判断活跃状态时将台风最新时间后移N小时
                     const latestTime = TU(typhoon.bjtime).hour(3).format('YYYYMMDDHH')
