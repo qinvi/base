@@ -146,7 +146,7 @@ export default {
         computeBottom(b) {
             this.hideLamp = b;
             if (!!this.marquee_Time) this.marquee_Time(b);
-            if (!!this.marquee_level) this.marquee_level(b);
+            if (!!this.marquee_level) this.marquee_level(!b);
         },
 
         /**

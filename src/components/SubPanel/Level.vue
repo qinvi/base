@@ -49,6 +49,7 @@ export default {
             hcHide: state => state.historyCase.hide,
             fullScreen: state => state.target.fullScreen,
             targetType: state => state.target.belong,
+            level: state => state.level.status,
             sigCloseAnalysis: state => state.analysis.sigCloseAnalysis
         }),
 
@@ -83,11 +84,16 @@ export default {
         }
     },
     watch: {
+        level(val) {
+            if (!val) {
+                this.updateParam([ 'level', { data: null, callback: null } ]);
+            }
+        },
         bigScreen() {
             this.computedBottom(this.marqueeHide);
         },
         min() {
-            this.computedBottom(this.marqueeHide);
+            this.computedBottom(this.lastMarBoolean);
         },
         code() {
             if (this.param.analysis) {
@@ -125,11 +131,12 @@ export default {
             this.lastZindex = '';
             this.updateParam(['alarm', { marquee_level: this.computedBottom }]);
             this.marqueeLevel = {
-                true_false: 90,
-                false_false: 54,
-                true_true: 125,
-                false_true: 93
+                true_false: 54, // 90,
+                false_false: 90, // 54,
+                true_true: 93,
+                false_true: 123
             }
+            this.lastMarBoolean = false
         },
 
         /**
@@ -137,7 +144,8 @@ export default {
          * @param {boolean} marBoolean 走马灯是否隐藏 false(不隐藏)：true(隐藏)
          * @param {boolean} minBoolean 分钟是否呈现
          */
-        computedBottom(marBoolean = false, minBoolean = this.min) {
+        computedBottom(marBoolean = this.lastMarBoolean, minBoolean = this.min) {
+            this.lastMarBoolean = marBoolean
             this.levelBottom = this.marqueeLevel[marBoolean + '_' + minBoolean] + (this.bigScreen ? 18 : 0) + 'px';
         },
 

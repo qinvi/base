@@ -41,7 +41,7 @@
             <v-tip></v-tip>
             <v-model></v-model>
             <v-map-ctrl></v-map-ctrl>
-            <v-level v-if="level"></v-level>
+            <v-level v-show="level"></v-level>
             <v-time></v-time>
             <v-base-info></v-base-info>
             <v-typhoon v-if="typhoon"></v-typhoon>
